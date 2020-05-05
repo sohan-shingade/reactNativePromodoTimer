@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "PromodoTimer",
-    "slug": "PromodoTimer",
+    "name": "project1",
+    "description": "This project is really great.",
+    "slug": "project1",
+    "privacy": "public",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,12 +16,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     }
