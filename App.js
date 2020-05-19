@@ -10,6 +10,15 @@ const CustomButton = props => {
     </TouchableOpacity>
   )
 }
+const ResetButton = props => {
+  return(
+    <TouchableOpacity onPress = {props.onPress} style = {styles.resetButton}>
+      <View style = {{...styles.button, ...props.style}}>
+        <Text style = {{...styles.buttonText, ...props.style}}>{props.text}</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 export default class App extends React.Component {
 
@@ -30,6 +39,7 @@ export default class App extends React.Component {
     this.stopTimer = this.stopTimer.bind(this)
     this.updateTimer = this.timerUpdated.bind(this)
     this.timerCheck = this.timerCheck.bind(this)
+    this.resetTimer = this.resetTimer.bind(this)
   }
   startTimer(){
     this.state.timerRunning = true
@@ -146,17 +156,34 @@ export default class App extends React.Component {
   /*componentWillUnmount(){
    clearInterval(this.interval);
   }*/
+
+  resetTimer(){
+    this.stopTimer()
+    this.setState({
+      min: 25,
+      tensec: 0,
+      sec: 0,
+      timerRunning: false,
+      timerText: 'Start',
+      work: true,
+      workBreakText: 'Let\'s do some \nwork!',
+      worknumber: 1,
+      worknumberString: 1 % 5 + '/4'
+    })
+  }
+
+
   timerCheck(){
     
     if(this.state.timerRunning){
       this.setState({
         min: this.state.min,
         tensec: this.state.tensec,
-    timerRunning: false,
+        timerRunning: false,
         timerText: 'Start',
-           work: this.state.work,
+        work: this.state.work,
         workBreakText: this.state.workBreakText,
-    worknumber: this.state.worknumber,
+        worknumber: this.state.worknumber,
         worknumberString: this.state.worknumber % 5 + '/4'
 
       })
@@ -184,26 +211,30 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <View style = {styles.RectCont}>
-          <View style = {styles.Rectangle1}></View>
-          <View style = {styles.Rectangle2}></View>
-          <View style = {styles.Rectangle3}></View>
+          <View style = {styles.Rectangle}></View>
+          <View style = {styles.Rectangle}></View>
+          <View style = {styles.Rectangle}></View>
         </View>
         <CustomButton onPress = {() => this.timerCheck()} text = {this.state.timerText}/>
 
         <View style = {styles.timerCont}>
           <View style = {styles.CircleShapeView}>
-            <View style = {styles.capsule}>
+            <View /*style = {styles.capsule}*/>
               <Text style={styles.timerWork}>{this.state.min}:{this.state.tensec}{this.state.sec}</Text>
               <Text style={styles.worksCount}>{this.state.worknumberString}</Text>
 
             </View>
 
           </View>
+          
          
         
         </View>
-        <Text style = {styles.titleText}>{this.state.workBreakText}</Text>
 
+        <ResetButton onPress = {()=> this.resetTimer()} text = 'Reset'/>
+        <View style = {styles.titleTextCont}>
+          <Text style = {styles.titleText}>{this.state.workBreakText}</Text>
+        </View>
         
       </View>
     );
@@ -218,6 +249,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  resetButton:{
+    position:'absolute',
+    top: (Dimensions.get('screen').height/(3/2)),
+    alignSelf: 'flex-start',
+    paddingLeft: Dimensions.get('window').width/13,
+    
+  },
+
   timerCont:{
     alignSelf: 'center',
     position: 'absolute',
@@ -226,8 +265,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   startButton: {
-    top: -100,
-    alignSelf: 'center',
+    position: 'absolute',
+    top: Dimensions.get('screen').height/3.5,
+    alignSelf: 'flex-end',
+    paddingRight: (Dimensions.get('window').width/13)
   },
   buttonText: {
     color: '#6500FF',
@@ -238,7 +279,7 @@ const styles = StyleSheet.create({
   timerWork: {
     width: 223,
     height: 75,
-    top:-7,
+    top: 55,
     alignSelf: 'center',
 
     color: '#6500FF',
@@ -247,6 +288,9 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'center',
 
+  },
+  titleTextCont:{
+    paddingBottom: Dimensions.get('screen').height/20,
   },
   titleText:{
     fontFamily: 'Futura',
@@ -269,6 +313,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     position: 'absolute',
     top: 120,
+    paddingTop: Dimensions.get('screen').height/18,
   },
   RectCont: {
     flex: 1,
@@ -277,7 +322,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
-  Rectangle1: {
+  Rectangle: {
     /*
     width: 75,
     height: 80,
@@ -286,36 +331,16 @@ const styles = StyleSheet.create({
     */
     backgroundColor: '#6500FF',
     borderRadius: 14,
-    width: 75,
-    height: 80,
+    width: (Dimensions.get('screen').width/5.5),
+    height: (Dimensions.get('screen').width/5.5),
   },
   
-  Rectangle2: {
-    /*
-    height: 80,
-    right: 170,
-    top: 75,
-    */
-    backgroundColor: '#6500FF',
-    borderRadius: 14,
-    width: 75,
-    height: 80,
-  },
-  Rectangle3: {
-    /*
-    right: 32,
-    top: 75,
-    */
-    backgroundColor: '#6500FF',
-    borderRadius: 14,
-    width: 75,
-    height: 80,
-  },
+  
   CircleShapeView: {
     alignSelf: 'center',
     
-    width: (Dimensions.get('screen').width/1.3),
-    height: (Dimensions.get('screen').width/1.3),
+    width: (Dimensions.get('screen').width/1.5),
+    height: (Dimensions.get('screen').width/1.5),
     borderRadius: (Dimensions.get('screen').width/(1.3*2)),
     borderColor: '#792BF0',
     borderWidth: 10,
