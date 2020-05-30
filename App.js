@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Sep, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 
 const CustomButton = props => {
   return(
@@ -33,7 +33,9 @@ export default class App extends React.Component {
       work: true,
       workBreakText: 'Let\'s do some \nwork!',
       worknumber: 1,
-      worknumberString: 1 % 5 + '/4'
+      worknumberString: 1 % 5 + '/4',
+      backgroundColor: '#FFF600',   
+      timerColor: '#792BF0',
     }
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
@@ -52,7 +54,11 @@ export default class App extends React.Component {
           work: prevState.work,
           workBreakText: prevState.workBreakText,
           worknumber: prevState.worknumber,
-          worknumberString: this.state.worknumber % 5 + '/4'
+          worknumberString: this.state.worknumber % 5 + '/4',
+          backgroundColor: this.state.backgroundColor,
+          
+          timerColor: this.state.timerColor,
+
 
         }))
         this.timerUpdated()
@@ -78,15 +84,21 @@ export default class App extends React.Component {
           let newmin = 0
           let worktitletemp = 'Let\'s do some \nwork!'
           let workString = this.state.worknumber % 5
+          let tempBackColor = '#FFF600'
+          let temptimercolor = '#792BF0'
           if(this.state.work){
             newmin = 5
             worktitletemp = 'Take a Break :)'
+            tempBackColor = '#792BF0'
+            temptimercolor = '#FFF600'
 
-            if(this.state.worknumber % 5 == 0){
+            if(this.state.worknumber % 4 == 0){
               //long break
               newmin = 10
               worktitletemp = 'Take a long break. You deserve it'
               workString = ''
+              tempBackColor = '#01F0FF'
+              temptimercolor = '#FF564B'
             }
 
           }
@@ -102,7 +114,9 @@ export default class App extends React.Component {
               work: this.state.work,
               workBreakText: worktitletemp,
               worknumber: this.state.worknumber + 1,
-              worknumberString: this.state.worknumber % 5 + '/4'
+              worknumberString: this.state.worknumber % 5 + '/4',
+              backgroundColor: tempBackColor,
+              timerColor: temptimercolor,
 
             })
           }
@@ -115,7 +129,9 @@ export default class App extends React.Component {
             work: !this.state.work,
             workBreakText: worktitletemp,
             worknumber: this.state.worknumber,
-            worknumberString: this.state.worknumber % 5 + '/4'
+            worknumberString: this.state.worknumber % 5 + '/4',
+            backgroundColor: tempBackColor,
+            timerColor: temptimercolor,
 
           })
         }
@@ -129,7 +145,9 @@ export default class App extends React.Component {
             work: this.state.work,
             workBreakText: this.state.workBreakText,
             worknumber: this.state.worknumber,
-            worknumberString: this.state.worknumber % 5 + '/4'
+            worknumberString: this.state.worknumber % 5 + '/4',
+            backgroundColor: this.state.backgroundColor,
+            timerColor: this.state.timerColor,
 
 
           })
@@ -145,7 +163,9 @@ export default class App extends React.Component {
           work: this.state.work,
           workBreakText: this.state.workBreakText,
           worknumber: this.state.worknumber,
-          worknumberString: this.state.worknumber % 5 + '/4'
+          worknumberString: this.state.worknumber % 5 + '/4',
+          backgroundColor: this.state.backgroundColor,
+          timerColor: this.state.timerColor,
 
 
       })
@@ -168,7 +188,9 @@ export default class App extends React.Component {
       work: true,
       workBreakText: 'Let\'s do some \nwork!',
       worknumber: 1,
-      worknumberString: 1 % 5 + '/4'
+      worknumberString: 1 % 5 + '/4',
+      backgroundColor: '#FFF600',
+      timerColor: '#792BF0',
     })
   }
 
@@ -184,7 +206,9 @@ export default class App extends React.Component {
         work: this.state.work,
         workBreakText: this.state.workBreakText,
         worknumber: this.state.worknumber,
-        worknumberString: this.state.worknumber % 5 + '/4'
+        worknumberString: this.state.worknumber % 5 + '/4',
+        backgroundColor: this.state.backgroundColor,
+        timerColor: this.state.timerColor,
 
       })
       
@@ -199,8 +223,9 @@ export default class App extends React.Component {
         work: this.state.work,
         workBreakText: this.state.workBreakText,
         worknumber: this.state.worknumber,
-        worknumberString: this.state.worknumber % 5 + '/4'
-
+        worknumberString: this.state.worknumber % 5 + '/4',
+        backgroundColor: this.state.backgroundColor,
+        timerColor: this.state.timerColor,
 
       })
       this.startTimer()
@@ -209,19 +234,35 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: this.state.backgroundColor}]}>
+        
         <View style = {styles.RectCont}>
-          <View style = {styles.Rectangle}></View>
-          <View style = {styles.Rectangle}></View>
-          <View style = {styles.Rectangle}></View>
+          <View style = {[styles.Rectangle, {backgroundColor: this.state.timerColor}]}>
+            <Text style = {[styles.rectText, {color: this.state.backgroundColor}]}>25</Text>
+            <Text style = {[styles.minText, {color: this.state.backgroundColor}]}>Min</Text>
+            <Text style = {[styles.RectTextLables, {color: this.state.timerColor}]}>Work Time</Text>
+          </View>
+          <View style = {[styles.Rectangle, {backgroundColor: this.state.timerColor}]}>
+            <Text style = {[styles.rectText, {color: this.state.backgroundColor}]}>5</Text>
+            <Text style = {[styles.minText, {color: this.state.backgroundColor}]}>Min</Text>
+            <Text style = {[styles.RectTextLables, {color: this.state.timerColor}]}>Break Time</Text>
+
+          </View>
+          <View style = {[styles.Rectangle, , {backgroundColor: this.state.timerColor}]}>
+            <Text style = {[styles.rectText, {color: this.state.backgroundColor}]}>10</Text>
+            <Text style = {[styles.minText, {color: this.state.backgroundColor}]}>Min</Text>
+            <Text style = {[styles.longBreakRectLabel, {color: this.state.timerColor}]}>Long Break Time</Text>
+
+
+          </View>
         </View>
-        <CustomButton onPress = {() => this.timerCheck()} text = {this.state.timerText}/>
+        <CustomButton onPress = {() => this.timerCheck()} text = {this.state.timerText} style = {{color: this.state.timerColor}}/>
 
         <View style = {styles.timerCont}>
-          <View style = {styles.CircleShapeView}>
+          <View style = {[styles.CircleShapeView, {borderColor: this.state.timerColor}]}>
             <View /*style = {styles.capsule}*/>
-              <Text style={styles.timerWork}>{this.state.min}:{this.state.tensec}{this.state.sec}</Text>
-              <Text style={styles.worksCount}>{this.state.worknumberString}</Text>
+              <Text style={[styles.timerWork, {color: this.state.timerColor}]}>{this.state.min}:{this.state.tensec}{this.state.sec}</Text>
+              <Text style={[styles.worksCount, {color: this.state.timerColor}]}>{this.state.worknumberString}</Text>
 
             </View>
 
@@ -231,9 +272,9 @@ export default class App extends React.Component {
         
         </View>
 
-        <ResetButton onPress = {()=> this.resetTimer()} text = 'Reset'/>
+        <ResetButton onPress = {()=> this.resetTimer()} text = 'Reset' style = {{color: this.state.timerColor}}/>
         <View style = {styles.titleTextCont}>
-          <Text style = {styles.titleText}>{this.state.workBreakText}</Text>
+          <Text style = {[styles.titleText, {color: this.state.timerColor}]}>{this.state.workBreakText}</Text>
         </View>
         
       </View>
@@ -245,7 +286,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF600',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -256,7 +296,19 @@ const styles = StyleSheet.create({
     paddingLeft: Dimensions.get('window').width/13,
     
   },
+  rectText:{
+    fontFamily: 'Futura', 
+    fontSize:30,
+    position: 'absolute'
 
+  },
+  RectTextLables: {
+    position:'absolute',
+    bottom: -25,
+    fontFamily: 'Futura', 
+    fontSize: 15,
+
+  },
   timerCont:{
     alignSelf: 'center',
     position: 'absolute',
@@ -271,10 +323,16 @@ const styles = StyleSheet.create({
     paddingRight: (Dimensions.get('window').width/13)
   },
   buttonText: {
-    color: '#6500FF',
     fontFamily: 'Futura',
     fontSize: 35,
     alignSelf: 'center',
+  },
+  longBreakRectLabel:{
+    position:'absolute',
+    bottom: -45,
+    fontFamily: 'Futura', 
+    fontSize: 15,
+    textAlign: 'center',
   },
   timerWork: {
     width: 223,
@@ -282,7 +340,6 @@ const styles = StyleSheet.create({
     top: 55,
     alignSelf: 'center',
 
-    color: '#6500FF',
     fontSize: 60,
     fontFamily: 'Futura',
     fontStyle: 'normal',
@@ -294,20 +351,21 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontFamily: 'Futura',
-    fontSize: 45,
+    fontSize: 40,
     alignSelf:'center',
-    color: '#792BF0',
-    width: 308,
-    height: 120,
     alignSelf: "center",
     textAlign: 'center',
   },
   timelengthsText: {
-    color: '#FFF600',
     fontSize: 12,
   },
+  minText:{
+    position: 'absolute',
+    fontFamily: 'Futura',
+    fontSize: 12,
+    bottom: 5,
+  },
   worksCount: {
-    color:'#6500FF',
     fontSize: 25,
     fontFamily: 'Futura',
     alignSelf: "center",
@@ -322,6 +380,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
+
   Rectangle: {
     /*
     width: 75,
@@ -329,10 +388,11 @@ const styles = StyleSheet.create({
     right: 307,
     top: 75,
     */
-    backgroundColor: '#6500FF',
     borderRadius: 14,
     width: (Dimensions.get('screen').width/5.5),
     height: (Dimensions.get('screen').width/5.5),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   
   
@@ -342,7 +402,6 @@ const styles = StyleSheet.create({
     width: (Dimensions.get('screen').width/1.5),
     height: (Dimensions.get('screen').width/1.5),
     borderRadius: (Dimensions.get('screen').width/(1.3*2)),
-    borderColor: '#792BF0',
     borderWidth: 10,
     backgroundColor: '#ffffff00',
     
@@ -353,7 +412,6 @@ const styles = StyleSheet.create({
     height: 85,
     top: 60,
     borderRadius: 50,
-    borderColor: '#792BF0',
     borderWidth: 10,
     backgroundColor: '#ffffff00',
 
